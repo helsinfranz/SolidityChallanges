@@ -1,8 +1,5 @@
-// https://docs.metamask.io/guide/ethereum-provider.html#using-the-provider
-
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
-import './WalletCard.css'
 
 const WalletCard = () => {
 
@@ -31,13 +28,10 @@ const WalletCard = () => {
 			setErrorMessage('Please install MetaMask browser extension to interact');
 		}
 	}
-
-	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
 		setDefaultAccount(newAccount);
 		getAccountBalance(newAccount.toString());
 	}
-
 	const getAccountBalance = (account) => {
 		window.ethereum.request({method: 'eth_getBalance', params: [account, 'latest']})
 		.then(balance => {
@@ -47,14 +41,9 @@ const WalletCard = () => {
 			setErrorMessage(error.message);
 		});
 	};
-
 	const chainChangedHandler = () => {
-		// reload the page to avoid any errors with chain change mid use of application
 		window.location.reload();
 	}
-
-
-	// listen for account changes
 	window.ethereum.on('accountsChanged', accountChangedHandler);
 
 	window.ethereum.on('chainChanged', chainChangedHandler);
@@ -73,5 +62,4 @@ const WalletCard = () => {
 		</div>
 	);
 }
-
 export default WalletCard;
